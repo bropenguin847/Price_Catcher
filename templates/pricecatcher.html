@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Price Catcher</title>
+    <link
+      href="{{ url_for('static', filename='styles/style.css')}}"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <!-- Ambient Background with grid overlay-->
+    <div class="ambient-bg">
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+      <div class="orb orb-3"></div>
+      <div class="grid-overlay"></div>
+    </div>
+
+    <h1>PRICE CATCHER</h1>
+    <h3>Game mode: The price is right</h3>
+
+    <div class="item-container">
+      <!-- Left Side: item image -->
+      <div class="item-image">
+        <img src="{{ image_url }}" alt="item Image" />
+      </div>
+
+      <!-- Right Side: item info -->
+      <div class="item-info">
+        <h5 class="origin">From {{ district }}, {{ state }}</h5>
+        <h5>{{ item_name }}</h5>
+        <h5 class="unit">{{ item_unit }}</h5>
+
+        <!-- User guess price -->
+        <form id="guessPriceForm" method="POST" style="text-align: center">
+          <label for="user_guess">Guess the Price (RM):</label>
+          <input
+            type="number"
+            step="0.10"
+            name="user_guess"
+            id="user_guess"
+            required
+          />
+          <button type="submit">Guess Price</button>
+        </form>
+
+        <div id="result-container" style="margin-top: 10px; display: none">
+          <p>Original Price: RM <span id="display-original"></span></p>
+          <p>Difference: RM <span id="display-diff"></span></p>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document
+        .getElementById("guessPriceForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault(); // Prevent page refresh
+
+          const formData = new FormData(this);
+
+          fetch("{{ url_for('pricecatcher') }}", {
+            method: "POST",
+            body: formData,
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              // Show the container
+              document.getElementById("result-container").style.display =
+                "block";
+
+              // Update the text values
+              document.getElementById("display-original").innerText =
+                data.ori_price;
+              document.getElementById("display-diff").innerText = data.result;
+            })
+            .catch((error) => console.error("Error:", error));
+        });
+    </script>
+
+    <form action="/pricecatcher">
+      <button type="submit">Play again</button>
+    </form>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>© 2026 KEITH LIM. HOBBY PROJECT.</p>
+    </footer>
+  </body>
+</html>

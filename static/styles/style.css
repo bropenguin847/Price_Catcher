@@ -1,0 +1,315 @@
+/* Bungee Tint from Google Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Bungee+Tint&display=swap");
+/* Bungee Spice Regular */
+@import url("https://fonts.googleapis.com/css2?family=Bungee+Spice&display=swap");
+/* Cairo Play medium font */
+@import url("https://fonts.googleapis.com/css2?family=Cairo+Play:slnt,wght@-5,500&display=swap");
+/* Reem Kufi Fun medium */
+@import url("https://fonts.googleapis.com/css2?family=Reem+Kufi+Fun:wght@500&display=swap");
+/* Google sans code italic regular */
+@import url("https://fonts.googleapis.com/css2?family=Google+Sans+Code:ital@1&display=swap");
+/* Libertinus Mono */
+@import url("https://fonts.googleapis.com/css2?family=Libertinus+Mono&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Primary colors */
+:root {
+  --primary: #00f0ff;
+  --secondary: #ff00d4;
+  --accent: #9d4edd;
+  --dark-1: #0a0a12;
+  --dark-2: #12121f;
+  --dark-3: #1a1a2e;
+  --glass-bg: rgba(255, 255, 255, 0.03);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glow-cyan: rgba(0, 240, 255, 0.4);
+  --glow-magenta: rgba(255, 0, 212, 0.4);
+}
+
+body {
+  font-family: "Reem Kufi Fun", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+  font-size: 1.6rem;
+
+  padding: 10px;
+  margin: 0;
+  background: var(--dark-1);
+  color: whitesmoke;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: center;
+  align-items: center;
+  overflow: hidden; /* Disables scrollbars */
+}
+
+/* Custom font for h1, h3 and h5 */
+h1 {
+  font-family: "Bungee Tint", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 5rem;
+}
+
+h3 {
+  font-family: "Bungee Spice", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 2.5rem;
+}
+
+h5 {
+  font-family: "Libertinus Mono", monospace;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 1rem;
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  margin-top: auto;
+  padding: 5px 0;
+  display: block;
+
+  font-family: "Google Sans Code", monospace;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: italic;
+  font-size: 0.8rem;
+}
+
+/* Defining classes */
+input,
+button {
+  font-family: inherit;
+  font-size: 2.5rem;
+  padding: 1rem;
+  border-radius: 10px;
+}
+
+input,
+button,
+select,
+textarea {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+/* FROM AI */
+.info-box {
+  background: #1941a7;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+  text-align: left;
+}
+.price-input {
+  margin: 20px 0;
+}
+input[type="text"] {
+  padding: 10px;
+  width: 200px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+button {
+  width: 79%;
+  padding: 10px 30px;
+  /* background-color: #007bff; */
+  background: linear-gradient(75deg, var(--glow-magenta), var(--glow-cyan));
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: var(--accent) 0.5s;
+}
+button:hover {
+  /* background: #0056b3; */
+  transform: translateY(-2px);
+  box-shadow: 0 0 20px var(--primary);
+  filter: brightness(1.2);
+}
+
+/* Keeps buttons side-by-side */
+.button-row {
+  gap: 15px;
+  gap: 15px;
+  max-width: 500px; /* Adjust based on your layout */
+  margin: 10px;
+  display: flex;
+}
+
+/* Necessary for positioning the information box */
+.button-container {
+  position: relative;
+  /* display: inline-block; */
+  flex: 1; /* This makes both containers take up equal space */
+}
+
+/* Hidden info that shows when cursor hovers */
+.info-box {
+  visibility: hidden;
+  background-color: #686868;
+  color: #fff;
+  text-align: center;
+  font-size: 0.9rem;
+  padding: 12px 10px;
+  border-radius: 5px;
+
+  /* Position settings */
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+
+  /* Size settings for "Wide/Rectangular" look */
+  width: 220px; /* Increase this for more width */
+  line-height: 1.4;
+  z-index: 10;
+
+  opacity: 0;
+  transition: opacity 0.3s;
+  border: 2px solid var(--glow-cyan); /* Subtle border like the image */
+}
+
+/* For side by side image and text */
+/* The container becomes a flexbox row */
+.item-container {
+  display: flex;
+  align-items: center; /* Vertically centers the text with the image */
+  background-color: #1a1a1a; /* Dark background*/
+  /* backdrop-filter: blur(10px); */
+  color: white;
+  padding: 50px;
+  gap: 20px; /* Space between image and text */
+  font-family: "Libertinus Mono", monospace;
+}
+
+/* Ensure the image doesn't overflow */
+.item-image img {
+  max-width: 250px;
+  height: auto;
+  display: block;
+}
+
+/* Styling the text info */
+.item-info h5 {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin: 5;
+  font-size: 1.2rem;
+  letter-spacing: 2px;
+}
+
+.origin h5,
+.unit h5 {
+  font-size: 0.9rem;
+  margin: 5;
+  text-transform: uppercase;
+}
+/* FROM AI */
+
+/* ---Actually useful--- */
+/* Show info on hover */
+.button-container:hover .info-box {
+  visibility: visible;
+  opacity: 1;
+}
+
+.image-container {
+  margin: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.image-container img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 5px;
+  display: block;
+}
+/* ---Actually useful--- */
+
+/* ---From custom css template--- */
+/* Ambient Background with gradient made from orbs */
+.ambient-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  animation: float 20s ease-in-out infinite;
+}
+
+.orb-1 {
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(circle, var(--glow-cyan) 0%, transparent 75%);
+  top: -250px;
+  left: -400px;
+  animation-delay: 0s;
+}
+
+.orb-2 {
+  width: 450px;
+  height: 450px;
+  background: radial-gradient(circle, var(--glow-magenta) 0%, transparent 75%);
+  bottom: -160px;
+  right: -160px;
+  animation-delay: -7s;
+}
+
+.orb-3 {
+  width: 420px;
+  height: 420px;
+  background: radial-gradient(
+    circle,
+    rgba(157, 78, 221, 0.3) 0%,
+    transparent 70%
+  );
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation-delay: -14s;
+}
+
+/* The Background Grid Pattern Overlay */
+.grid-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 2px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 2px);
+  background-size: 80px 80px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ---From custom css template--- */

@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PRICE CATCHER</title>
+    <link
+      href="{{ url_for('static', filename='styles/style.css')}}"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <!-- Ambient Background -->
+    <div class="ambient-bg">
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+      <div class="orb orb-3"></div>
+    </div>
+
+    <!-- Grid Overlay -->
+    <div class="grid-overlay"></div>
+
+    <h1>PRICE CATCHER</h1>
+    <h3>Guess the right price</h3>
+    <h4>Guess this month's grocery prices from all over Malaysian stores</h4>
+    <div class="image-container">
+      <img src="{{ image_url }}" alt="Product Image" />
+    </div>
+    <div class="button-row">
+      <!-- TODO: Implement different game mode -->
+      <!-- Get game mode -->
+      <!-- <form action="/pricecatcher">
+        <input
+        type="text"
+        name="game_mode"
+        id="game_mode"
+        placeholder=""
+      </form> -->
+      <div class="button-container">
+        <form action="/pricecatcher">
+          <button>Delta</button>
+          <div class="info-box">Guess the delta, as close as possible</div>
+        </form>
+      </div>
+
+      <div class="button-container">
+        <form action="/pricecatcher">
+          <button>The Price is Right</button>
+          <div class="info-box">The Classic price is right style</div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>© 2026 KEITH LIM. A Hobby Project.</p>
+    </footer>
+  </body>
+</html>
