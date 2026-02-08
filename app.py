@@ -11,7 +11,7 @@ Improve the look of the websites
 from flask import Flask, render_template, request, jsonify
 from game import load_data, grab_info, get_image_url, calculate_delta
 
-DATA_URL = 'https://storage.data.gov.my/pricecatcher/pricecatcher_2026-01.parquet'
+DATA_URL = 'https://storage.data.gov.my/pricecatcher/pricecatcher_2026-02.parquet'
 LOOKUP_PREMISE_URL = 'https://storage.data.gov.my/pricecatcher/lookup_premise.parquet'
 LOOKUP_ITEM_URL = 'https://storage.data.gov.my/pricecatcher/lookup_item.parquet'
 
