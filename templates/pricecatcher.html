@@ -5,9 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Price Catcher</title>
     <link
+      rel="icon"
+      href="{{ url_for('static', filename='styles/favicon.ico')}}"
+      type="image/x-icon"
+    />
+    <link
       href="{{ url_for('static', filename='styles/style.css')}}"
       rel="stylesheet"
     />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
   </head>
 
   <body>
@@ -30,52 +36,85 @@
 
       <!-- Right Side: item info -->
       <div class="item-info">
-        <h5 class="origin">From {{ district }}, {{ state }}</h5>
-        <h5>{{ item_name }}</h5>
-        <h5 class="unit">{{ item_unit }}</h5>
+        <div class="item-guess">
+          <h5 class="origin">From {{ district }}, {{ state }}</h5>
+          <h5>{{ item_name }}</h5>
+          <h5 class="unit">{{ item_unit }}</h5>
 
-        <!-- User guess price -->
-        <form id="guessPriceForm" method="POST" style="text-align: center">
-          <label for="user_guess">Guess the Price (RM):</label>
-          <input
-            type="number"
-            step="0.10"
-            name="user_guess"
-            id="user_guess"
-            required
-          />
-          <button type="submit">Guess Price</button>
-        </form>
+          <!-- User guess price -->
+          <form
+            id="guessPriceForm"
+            method="POST"
+            class="guess-container"
+            style="text-align: center"
+          >
+            <label for="user_guess">Guess the Price (RM):</label>
+            <input
+              type="number"
+              step="0.05"
+              name="user_guess"
+              id="user_guess"
+              required
+            />
+            <button type="submit" id="submit-btn">Guess Price</button>
+          </form>
+        </div>
 
-        <div id="result-container" style="margin-top: 10px; display: none">
+        <div id="result-container" style="margin-top: 10px">
           <p>Original Price: RM <span id="display-original"></span></p>
-          <p>Difference: RM <span id="display-diff"></span></p>
+          <p>Difference: RM <span id="display-result"></span></p>
+          <p>Best Guess: RM <span id="display-best"></span></p>
         </div>
       </div>
     </div>
+
+    <br />
 
     <script>
       document
         .getElementById("guessPriceForm")
         .addEventListener("submit", function (e) {
-          e.preventDefault(); // Prevent page refresh
+          // Prevent page refresh
+          e.preventDefault();
 
-          const formData = new FormData(this);
+          const submitBtn = document.getElementById("submit-btn");
+          const resultDiv = document.getElementById("result-container");
+          const user_input = document.getElementById("user_guess");
+          const user_guess = user_input.value;
 
-          fetch("{{ url_for('pricecatcher') }}", {
+          fetch("/userguess", {
             method: "POST",
-            body: formData,
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ user_guess: user_guess }),
           })
             .then((response) => response.json())
             .then((data) => {
-              // Show the container
-              document.getElementById("result-container").style.display =
-                "block";
+              if (data.user_guess) {
+                // Disable form to prevent resubmission
+                user_input.disabled = true;
+                submitBtn.disabled = true;
+                submitBtn.textContent = "Submitted";
 
-              // Update the text values
-              document.getElementById("display-original").innerText =
-                data.ori_price;
-              document.getElementById("display-diff").innerText = data.result;
+                // Update display
+                // resultDiv.textContent = "add results here";
+
+                // Show the container
+                const resultContainer =
+                  document.getElementById("result-container");
+                resultContainer.style.display = "block";
+                document.getElementById("result-container").style.display =
+                  "block";
+
+                // Update the text values
+                document.getElementById("display-original").innerText =
+                  data.ori_price.toFixed(2);
+                document.getElementById("display-result").innerText =
+                  data.result.toFixed(2);
+                document.getElementById("display-best").innerText =
+                  data.best_guess.toFixed(2);
+              }
             })
             .catch((error) => console.error("Error:", error));
         });

@@ -144,18 +144,24 @@ button:hover {
 
 /* Keeps buttons side-by-side */
 .button-row {
-  gap: 15px;
-  gap: 15px;
-  max-width: 500px; /* Adjust based on your layout */
-  margin: 10px;
   display: flex;
+  max-width: 500px;
+  margin: 15px;
+
+  /* align-items: center; */
+  justify-content: center;
 }
 
 /* Necessary for positioning the information box */
 .button-container {
+  width: 200px;
+  height: 100px;
   position: relative;
-  /* display: inline-block; */
-  flex: 1; /* This makes both containers take up equal space */
+
+  display: inline-block;
+  align-items: center;
+  flex: 1;
+  vertical-align: middle;
 }
 
 /* Hidden info that shows when cursor hovers */
@@ -190,16 +196,16 @@ button:hover {
   display: flex;
   align-items: center; /* Vertically centers the text with the image */
   background-color: #1a1a1a; /* Dark background*/
-  /* backdrop-filter: blur(10px); */
+  border-radius: 0.5rem;
   color: white;
-  padding: 50px;
-  gap: 20px; /* Space between image and text */
+  padding: 25px;
+  margin-top: 1rem;
+  gap: 0.5rem; /* Space between image and text */
   font-family: "Libertinus Mono", monospace;
 }
 
-/* Ensure the image doesn't overflow */
 .item-image img {
-  max-width: 250px;
+  max-width: 300px;
   height: auto;
   display: block;
 }
@@ -210,15 +216,46 @@ button:hover {
   flex-direction: column;
   gap: 5px;
   margin: 5;
+}
+
+.item-guess {
   font-size: 1.2rem;
   letter-spacing: 2px;
+}
+
+.guess-container {
+  background-color: var(--glass-bg);
+  color: white;
+  border-radius: 12px;
+  width: 500px;
+  max-width: 500px;
+  gap: 5px;
+
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px auto;
+}
+
+.guess-container button {
+  width: 80%;
+  padding: 15px;
+  border: none;
+  border-radius: 8px;
+  /* Purple to Blue gradient from your image */
+  background: linear-gradient(90deg, #7b2cbf 0%, #1a759f 100%);
+  color: white;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
 }
 
 .origin h5,
 .unit h5 {
   font-size: 0.9rem;
   margin: 5;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
 }
 /* FROM AI */
 

@@ -43,17 +43,18 @@ Finally, use the df_filtered as data
 
 
 import pandas as pd
-
+import pyarrow  # Dummy import for pipreqs
+import fastparquet  # Dummy import for pipreqs
 
 DATA_URL = 'https://storage.data.gov.my/pricecatcher/pricecatcher_2026-01.parquet'
-LOOKUP_PREMISE_URL = 'https://storage.data.gov.my/pricecatcher/lookup_premise.parquet'# LOOKUP_ITEM_PAR = os.path.join(lookup_dir, 'lookup_item.parquet')
+LOOKUP_PREMISE_URL = 'https://storage.data.gov.my/pricecatcher/lookup_premise.parquet'
 LOOKUP_ITEM_URL = 'https://storage.data.gov.my/pricecatcher/lookup_item.parquet'
 
 # Dataframe to be used
-df = None
-df_main = None
-df_lookup = None
-df_premise = None
+# df = None
+# df_main = None
+# df_lookup = None
+# df_premise = None
 item_info = {}
 
 def load_data():
@@ -62,7 +63,7 @@ def load_data():
     Returns three dataframe
     (df_main, df_lookup, df_premise)
     """
-    global df, df_main, df_lookup, df_premise
+    global df_main, df_lookup, df_premise
 
     try:
         # Lookup Premise (state & district), loads df_premise and drops first row
@@ -121,7 +122,7 @@ def get_image_url(item_code):
 
 def grab_info(df_main, df_lookup, df_premise):
     """
-    Gets all the neccessary info from dataframes
+    Picks a random row & gets all the neccessary info from dataframes
     Prints info in terminal
     Returns in dictionary
     """
@@ -132,6 +133,7 @@ def grab_info(df_main, df_lookup, df_premise):
     ori_price = random_row["price"].values[0]
     image_url = get_image_url(ori_code)
 
+    # Get the item name and unit
     matching_rows = df_lookup.loc[df_lookup['item_code'] == ori_code]
     item_name = matching_rows["item"].values[0]
     item_unit = matching_rows["unit"].values[0]
@@ -144,6 +146,7 @@ def grab_info(df_main, df_lookup, df_premise):
     Item: {item_name}
     Unit: {item_unit}
     IMG: {image_url}
+    oriprice = {ori_price:.2f}
     """)
 
     return {
@@ -152,25 +155,40 @@ def grab_info(df_main, df_lookup, df_premise):
         "item_name": item_name,
         "unit": item_unit,
         "image_url": image_url,
-        "price": ori_price
+        "price": round(ori_price,2)
     }
 
 
 if __name__ == '__main__':
+    best_guess = 1000.0
     df_main, df_lookup, df_premise = load_data()
-    item_info = grab_info(df_main, df_lookup, df_premise)
-    ori_price = item_info['price']
 
-    guess_price = float(input("Guess the price: RM "))
-    difference = calculate_delta(ori_price, guess_price)
-    print("=====================================")
-    price_is_right(game_mode=1, guessed=guess_price, actual=ori_price)  # Set to always Price is right mode
-    print(f"You guessed   : RM {guess_price: .2f}")
-    print(f"Correct price : RM {ori_price: .2f}")
-    print(f"Difference    : RM {difference: .2f}")
+    while True:
+        item_info = grab_info(df_main, df_lookup, df_premise)
+        ori_price = item_info['price']
+
+        guess_price = float(input("Guess the price: RM "))
+        difference = calculate_delta(ori_price, guess_price)
+        print("=====================================")
+        price_is_right(game_mode=1, guessed=guess_price, actual=ori_price)  # Set to always Price is right mode
+        print(f"You guessed   : RM {guess_price: .2f}")
+        print(f"Correct price : RM {ori_price}")
+        print(f"Difference    : RM {difference: .2f}")
+        
+        # Update best guess
+        # if best_guess == None:
+        #     best_guess = difference
+        # elif difference < best_guess:
+        #     best_guess = difference
+        #     print(f"New Best! : RM {best_guess: .2f}")
+        if difference < best_guess:
+            best_guess = difference
+            print(f"New Best! : RM {best_guess: .2f}")
+        else:
+            print(f"Best Guess  : RM {best_guess: .2f}")
 
     # Game loop repeat, add while True:
-    # player = input("Do you want to play another round? (y/n): ")
-    # if player.lower() == 'n':
-    #     print("Thanks for playing")
-    #     break
+        player = input("Do you want to play another round? (y/n): ")
+        if player.lower() == 'n':
+            print("Thanks for playing")
+            break
