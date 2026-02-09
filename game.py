@@ -30,18 +30,12 @@ https://img.manamurah.com/barang_nobg/{ori_code}.png
 
 Reference:
 https://open.dosm.gov.my/data-catalogue/pricecatcher
-
-
-Bug report:
-Sometimes the df contains item_code that doesn't exist in lookup_item.csv.
-This is due to the lookup_item.csv being outdated.
-Fix:
-Replace lookup_item.csv with lookup_item.parquet and read with pandas into dataframe
-Then, filter the big data with the unique item_codes into new dataframe
-Finally, use the df_filtered as data
 """
 
-
+import psutil
+import tracemalloc
+import gc
+import os
 import pandas as pd
 import pyarrow  # Dummy import for pipreqs
 import fastparquet  # Dummy import for pipreqs
@@ -81,6 +75,10 @@ def load_data():
         if 'date' in df.columns:
             df['date'] = pd.to_datetime(df['date'])
         df_main = df[df['item_code'].isin(item_codes)].copy()
+
+        df_main = df_main.sample(n=1000).copy()
+        del df
+        gc.collect()
 
         return df_main, df_lookup, df_premise
     
@@ -160,6 +158,7 @@ def grab_info(df_main, df_lookup, df_premise):
 
 
 if __name__ == '__main__':
+    tracemalloc.start()
     best_guess = 1000.0
     df_main, df_lookup, df_premise = load_data()
 
@@ -192,3 +191,11 @@ if __name__ == '__main__':
         if player.lower() == 'n':
             print("Thanks for playing")
             break
+
+
+        # df_main.info(memory_usage="deep")
+        process = psutil.Process(os.getpid())
+        print(f"RAM used: {process.memory_info().rss / 1024**2:.2f} MB")
+        current, peak = tracemalloc.get_traced_memory()
+        print(f"Current: {current / 1024**2:.2f} MB; Peak: {peak / 1024**2:.2f} MB")
+    tracemalloc.stop()
