@@ -102,9 +102,9 @@ def userguess():
 
 
 if __name__ == "__main__":
-    # app.run(host="0.0.0.0", port=8000, debug=True)
     tracemalloc.start()
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=8000, debug=True)
+    # app.run(debug=True)
     current, peak = tracemalloc.get_traced_memory()
     print(f"Final Current: {current / 1024**2:.2f} MB; Peak: {peak / 1024**2:.2f} MB")
     tracemalloc.stop()
