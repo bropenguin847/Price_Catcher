@@ -32,10 +32,8 @@ Reference:
 https://open.dosm.gov.my/data-catalogue/pricecatcher
 """
 
-import psutil
-import tracemalloc
+
 import gc
-import os
 import pandas as pd
 import pyarrow  # Dummy import for pipreqs
 import fastparquet  # Dummy import for pipreqs
@@ -44,11 +42,6 @@ DATA_URL = 'https://storage.data.gov.my/pricecatcher/pricecatcher_2026-01.parque
 LOOKUP_PREMISE_URL = 'https://storage.data.gov.my/pricecatcher/lookup_premise.parquet'
 LOOKUP_ITEM_URL = 'https://storage.data.gov.my/pricecatcher/lookup_item.parquet'
 
-# Dataframe to be used
-# df = None
-# df_main = None
-# df_lookup = None
-# df_premise = None
 item_info = {}
 
 def load_data():
@@ -64,19 +57,35 @@ def load_data():
         df_premise = pd.read_parquet(LOOKUP_PREMISE_URL, columns=['premise_code', 'state', 'district'])
         df_premise = df_premise.iloc[1:]
 
+        df_premise = df_premise.astype({
+            'premise_code': 'float32',
+            'state': 'str',
+            'district': 'str'
+        })
+
         # Lookup Item (item name, code & unit), loads df_lookup and drops first row
         df_lookup = pd.read_parquet(LOOKUP_ITEM_URL, columns=['item_code', 'item', 'unit'])
         df_lookup = df_lookup.iloc[1:]
         # Get the unique list of valid item codes, in array form
         item_codes = df_lookup['item_code'].unique()
 
+        df_lookup = df_lookup.astype({
+            'item_code': 'int16',
+            'item': 'str',
+            'unit': 'str'
+        })
+
         # Load df_main
         df = pd.read_parquet(DATA_URL)
-        if 'date' in df.columns:
-            df['date'] = pd.to_datetime(df['date'])
-        df_main = df[df['item_code'].isin(item_codes)].copy()
+        df = df.astype({
+            'premise_code': 'int16',
+            'item_code': 'int16',
+            'price': 'float16'
+        })
+        df = df[df['item_code'].isin(item_codes)].copy()
 
-        df_main = df_main.sample(n=1000).copy()
+        # df_main = df_main.sample(n=1000).copy()
+        df_main = df.sample(n=1000)
         del df
         gc.collect()
 
@@ -157,45 +166,45 @@ def grab_info(df_main, df_lookup, df_premise):
     }
 
 
-if __name__ == '__main__':
-    tracemalloc.start()
-    best_guess = 1000.0
-    df_main, df_lookup, df_premise = load_data()
+# if __name__ == '__main__':
+#     tracemalloc.start()
+#     best_guess = 1000.0
+#     df_main, df_lookup, df_premise = load_data()
 
-    while True:
-        item_info = grab_info(df_main, df_lookup, df_premise)
-        ori_price = item_info['price']
+#     while True:
+#         item_info = grab_info(df_main, df_lookup, df_premise)
+#         ori_price = item_info['price']
 
-        guess_price = float(input("Guess the price: RM "))
-        difference = calculate_delta(ori_price, guess_price)
-        print("=====================================")
-        price_is_right(game_mode=1, guessed=guess_price, actual=ori_price)  # Set to always Price is right mode
-        print(f"You guessed   : RM {guess_price: .2f}")
-        print(f"Correct price : RM {ori_price}")
-        print(f"Difference    : RM {difference: .2f}")
+#         guess_price = float(input("Guess the price: RM "))
+#         difference = calculate_delta(ori_price, guess_price)
+#         print("=====================================")
+#         price_is_right(game_mode=1, guessed=guess_price, actual=ori_price)  # Set to always Price is right mode
+#         print(f"You guessed   : RM {guess_price: .2f}")
+#         print(f"Correct price : RM {ori_price}")
+#         print(f"Difference    : RM {difference: .2f}")
         
-        # Update best guess
-        # if best_guess == None:
-        #     best_guess = difference
-        # elif difference < best_guess:
-        #     best_guess = difference
-        #     print(f"New Best! : RM {best_guess: .2f}")
-        if difference < best_guess:
-            best_guess = difference
-            print(f"New Best! : RM {best_guess: .2f}")
-        else:
-            print(f"Best Guess  : RM {best_guess: .2f}")
+#         # Update best guess
+#         # if best_guess == None:
+#         #     best_guess = difference
+#         # elif difference < best_guess:
+#         #     best_guess = difference
+#         #     print(f"New Best! : RM {best_guess: .2f}")
+#         if difference < best_guess:
+#             best_guess = difference
+#             print(f"New Best! : RM {best_guess: .2f}")
+#         else:
+#             print(f"Best Guess  : RM {best_guess: .2f}")
 
-    # Game loop repeat, add while True:
-        player = input("Do you want to play another round? (y/n): ")
-        if player.lower() == 'n':
-            print("Thanks for playing")
-            break
+#     # Game loop repeat, add while True:
+#         player = input("Do you want to play another round? (y/n): ")
+#         if player.lower() == 'n':
+#             print("Thanks for playing")
+#             break
 
 
-        # df_main.info(memory_usage="deep")
-        process = psutil.Process(os.getpid())
-        print(f"RAM used: {process.memory_info().rss / 1024**2:.2f} MB")
-        current, peak = tracemalloc.get_traced_memory()
-        print(f"Current: {current / 1024**2:.2f} MB; Peak: {peak / 1024**2:.2f} MB")
-    tracemalloc.stop()
+#         # df_main.info(memory_usage="deep")
+#         process = psutil.Process(os.getpid())
+#         print(f"RAM used: {process.memory_info().rss / 1024**2:.2f} MB")
+#         current, peak = tracemalloc.get_traced_memory()
+#         print(f"Current: {current / 1024**2:.2f} MB; Peak: {peak / 1024**2:.2f} MB")
+#     tracemalloc.stop()

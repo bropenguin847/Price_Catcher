@@ -1,5 +1,6 @@
 """
-Main web app
+Main web app ot be run
+
 Initally, the webpage is at index, then when user press submit, it will go to the game
 
 TODO:
@@ -10,7 +11,6 @@ Add game modes
 
 
 import gc
-import tracemalloc
 from flask import Flask, render_template, jsonify, session, request
 from game import load_data, grab_info, get_image_url, calculate_delta
 
@@ -21,12 +21,6 @@ LOOKUP_ITEM_URL = 'https://storage.data.gov.my/pricecatcher/lookup_item.parquet'
 app = Flask(__name__)
 app.secret_key = 'my_super_duper_secret_key'
 
-# Dataframe to be used
-# df = None
-# df_main = None
-# df_lookup = None
-# df_premise = None
-
 df_main, df_lookup, df_premise = load_data()        # Loads data in the beginning
 
 @app.route('/')
@@ -36,8 +30,6 @@ def index():
     random_row = df_main.sample(n=1)
     ori_code = random_row["item_code"].values[0]
 
-    current, peak = tracemalloc.get_traced_memory()
-    print(f"Index: {current / 1024**2:.2f} MB; Peak: {peak / 1024**2:.2f} MB")
     return render_template(
         'index.html',
         image_url = get_image_url(ori_code)
@@ -47,9 +39,6 @@ def index():
 def pricecatcher():
     global result, best_guess, ori_price, item_info
     item_info = grab_info(df_main, df_lookup, df_premise)
-
-    current, peak = tracemalloc.get_traced_memory()
-    print(f"Price: {current / 1024**2:.2f} MB; Peak: {peak / 1024**2:.2f} MB")
 
     return render_template(
         'pricecatcher.html',
@@ -67,25 +56,23 @@ def pricecatcher():
 @app.route('/userguess', methods=["POST","GET"])
 def userguess():
     global item_info
-    ori_price = item_info['price']
+    ori_price = float(item_info['price'])
     if 'best_guess' not in session:
         session['best_guess'] = 1000.00
 
     data = request.get_json()
-    user_guess = data.get("user_guess")
-    result = calculate_delta(ori_price, float(user_guess))
+    user_guess = float(data.get("user_guess", 0))
+    result = float(calculate_delta(ori_price, user_guess))
 
-    if result < session['best_guess']:
+    if result < float(session['best_guess']):
         session['best_guess'] = result
 
-    current, peak = tracemalloc.get_traced_memory()
-    print(f"Guess : {current / 1024**2:.2f} MB; Peak: {peak / 1024**2:.2f} MB")
-
+    # To avoid TypeError, change all values to Python default
     return jsonify({
         'ori_price': ori_price,
         'user_guess': user_guess,
         'result': result,
-        'best_guess': session['best_guess']
+        'best_guess': float(session['best_guess'])
         })
     # if request.method == 'POST':
     #     user_guess = request.form.get('user_guess')
@@ -102,9 +89,7 @@ def userguess():
 
 
 if __name__ == "__main__":
-    tracemalloc.start()
-    app.run(host="0.0.0.0", port=8000, debug=True)
+    # app.run(host="0.0.0.0", port=8000, debug=True)
     # app.run(debug=True)
-    current, peak = tracemalloc.get_traced_memory()
-    print(f"Final Current: {current / 1024**2:.2f} MB; Peak: {peak / 1024**2:.2f} MB")
-    tracemalloc.stop()
+    # gunicorn --bind 0.0.0.0:8000 app:app)
+    app.run(debug=False)
