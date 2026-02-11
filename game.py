@@ -35,7 +35,6 @@ https://open.dosm.gov.my/data-catalogue/pricecatcher
 
 import gc
 import pandas as pd
-import pyarrow  # Dummy import for pipreqs
 import fastparquet  # Dummy import for pipreqs
 
 DATA_URL = 'https://storage.data.gov.my/pricecatcher/pricecatcher_2026-01.parquet'
