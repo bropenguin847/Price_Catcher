@@ -25,8 +25,11 @@
       <div class="grid-overlay"></div>
     </div>
 
-    <h1>PRICE CATCHER</h1>
+    <h1>
+      <a href="/" class="home-link">PRICE CATCHER</a>
+    </h1>
     <h3>Game mode: The price is right</h3>
+    <h4>Closest without going over</h4>
 
     <div class="item-container">
       <!-- Left Side: item image -->
@@ -60,15 +63,14 @@
           </form>
         </div>
 
-        <div id="result-container" style="margin-top: 10px">
+        <div id="result-container" style="display: none">
+          <h4 id="game-message"></h4>
           <p>Original Price: RM <span id="display-original"></span></p>
           <p>Difference: RM <span id="display-result"></span></p>
           <p>Best Guess: RM <span id="display-best"></span></p>
         </div>
       </div>
     </div>
-
-    <br />
 
     <script>
       document
@@ -97,15 +99,20 @@
                 submitBtn.disabled = true;
                 submitBtn.textContent = "Submitted";
 
-                // Update display
-                // resultDiv.textContent = "add results here";
-
                 // Show the container
                 const resultContainer =
                   document.getElementById("result-container");
                 resultContainer.style.display = "block";
                 document.getElementById("result-container").style.display =
                   "block";
+                const messageElement = document.getElementById("game-message");
+
+                // Display the win/loss message
+                messageElement.innerText = data.message;
+                messageElement.style.color =
+                  data.status === "win"
+                    ? "var(--win-green)"
+                    : "var(--lose-red)";
 
                 // Update the text values
                 document.getElementById("display-original").innerText =
@@ -120,7 +127,7 @@
         });
     </script>
 
-    <form action="/pricecatcher">
+    <form action="/pricecatcherTPIR">
       <button type="submit">Play again</button>
     </form>
 
