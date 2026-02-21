@@ -10,6 +10,7 @@ Add game modes
 """
 
 
+import os
 import gc
 from flask import Flask, render_template, jsonify, session, request
 from game import load_data, grab_info, get_image_url, calculate_delta
@@ -92,4 +93,5 @@ if __name__ == "__main__":
     # app.run(host="0.0.0.0", port=8000, debug=True)
     # app.run(debug=True)
     # gunicorn --bind 0.0.0.0:8000 app:app)
-    app.run(debug=False)
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host="0.0.0.0", port=port, debug=False)
