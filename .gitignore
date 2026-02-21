@@ -1,7 +1,11 @@
 .venv
 .env
 __pycache__
-tempCode.py
+
 desktop.ini
-templates\index2.html
 personal_setup.md
+
+tempCode.py
+tempCode2.py
+templates/index2.html
+templates/next.html
