@@ -8,8 +8,7 @@
 [![Platform](https://img.shields.io/badge/platform-render-blueviolet)](https://render.com)
 [![Flask](https://img.shields.io/badge/framework-flask-lightgrey)](https://render.com)
 
-<img alt="OpenDOSM logo" src="static\styles\OpenDOSM.jpg" style="width: 20%; border-radius: 2rem;">
-<img alt="Price Catcher Game Logo" src="static\styles\Gemini_Generated_logo.png" style="width: 20%; border-radius: 8rem;">
+<img alt="OpenDOSM logo" src="static\styles\OpenDOSM.jpg" style="width: 20%; border-radius: 2rem;"><img alt="Price Catcher Game Logo" src="static\styles\Gemini_Generated_logo.png" style="width: 20%; border-radius: 8rem;">
 
 Price Catcher is an interactive grocery price guessing web app built with Python language and Flask framework. It utilizes real-life data from OpenDOSM to challenge users on the daily product prices across stores in Malaysia. There are two modes in this game: Delta and The Price is Right.
 
@@ -125,4 +124,6 @@ Settings (Hobby tier):
 
 <img alt="MIT License" src="https://upload.wikimedia.org/wikipedia/commons/c/c3/License_icon-mit.svg" style="width: 15%;">
 
-[MIT LICENSE](LICENSE)
+Copyright(c) 2026-present [Keith Lim](https://github.com/bropenguin847)
+
+Licensed under the [MIT LICENSE](LICENSE)
