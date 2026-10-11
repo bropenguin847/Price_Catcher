@@ -2,13 +2,15 @@
 
 [![Licence](https://img.shields.io/github/license/Ileriayo/markdown-badges?style=for-the-badge)](./LICENSE)
 ![Python](https://img.shields.io/badge/-python-blue?logo=python&logoColor=yellow&style=flat)
-![Flask](https://img.shields.io/badge/-flask-grey?logo=flask&logoColor=#3BABC3&style=flat)
-![Render](https://img.shields.io/badge/-render-blueviolet?logo=render&logoColor=black&style=flat)
 [![Python Version](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org)
+![Flask](https://img.shields.io/badge/-flask-grey?logo=flask&logoColor=#3BABC3&style=flat)
 [![Platform](https://img.shields.io/badge/platform-render-blueviolet)](https://render.com)
-[![Flask](https://img.shields.io/badge/framework-flask-lightgrey)](https://render.com)
+[![Flask](https://img.shields.io/badge/framework-flask-lightblue)](https://render.com)
+[![Better Stack Badge](https://incidents.betterstack.com/status-badges/v2/monitor/2oi6a.svg)](https://incidents.betterstack.com/?utm_source=status_badge)
 
-<img alt="OpenDOSM logo" src="static\styles\OpenDOSM.jpg" style="width: 20%; border-radius: 2rem;"><img alt="Price Catcher Game Logo" src="static\styles\Gemini_Generated_logo.png" style="width: 20%; border-radius: 8rem;">
+<!-- ![Render](https://img.shields.io/badge/-render-blueviolet?logo=render&logoColor=black&style=flat) -->
+
+<img alt="OpenDOSM logo" src="static\styles\OpenDOSM.jpg" style="width: 20%; border-radius: 2rem;"><img alt="Price Catcher Game Logo" src="static\styles\price_catcher_logo.png" style="width: 20%; border-radius: 8rem;">
 
 Price Catcher is an interactive grocery price guessing web app built with Python language and Flask framework. It utilizes real-life data from OpenDOSM to challenge users on the daily product prices across stores in Malaysia. There are two modes in this game: Delta and The Price is Right.
 
@@ -17,7 +19,6 @@ Data is based on OpenDOSM's Price Catcher catalogue. Fetched using API via Pytho
 Deployed on Render as webservices with the hobby tier (free).<br>
 <img src="static/styles/pricecatcherdemo.gif" alt="Demo" width="350"><br>
 [Live Demo: https://price-catcher.onrender.com](https://price-catcher.onrender.com)
-
 
 ## Contents
 
@@ -88,6 +89,14 @@ Settings (Hobby tier):
 - Build command: `pip install -r requirements.txt`
 - Start command: `python app.py`
 - Auto Deploy: On Commit
+
+This project's uses Better Stack's uptime monitor to constantly monitor the uptime and prevents the web app from sleeping after 15 mins of inactivity.
+[Learn more here](https://betterstack.com)
+
+Settings (Free for personal projects):
+
+- Check frequency: 5 mins
+- Regions: Asia
 
 ## File Structure
 
