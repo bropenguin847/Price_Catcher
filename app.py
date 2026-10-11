@@ -112,7 +112,9 @@ def userguess():
 # For uptime monitoring using Better Stack
 @app.route('/ping', methods=["GET"])
 def ping():
-    return jsonify({'status': 'available'}), 200
+    # return jsonify({'status': 'available'}), 200
+    # return "Available", 200
+    return render_template('ping.html'), 200
 
 if __name__ == "__main__":
     # gunicorn --bind 0.0.0.0:8000 app:app)

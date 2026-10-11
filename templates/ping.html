@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PING TEST</title>
+
+    <link
+      rel="icon"
+      href="{{ url_for('static', filename='styles/favicon.ico')}}"
+      type="image/x-icon"
+    />
+
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="{{ url_for('static', filename='styles/apple-touch-icon.png')}}"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="{{ url_for('static', filename='styles/favicon-32x32.png')}}"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="{{ url_for('static', filename='styles/favicon-16x16.png')}}"
+    />
+    <link
+      rel="manifest"
+      href="{{ url_for('static', filename='styles/site.webmanifest')}}"
+    />
+
+    <link
+      href="{{ url_for('static', filename='styles/style.css')}}"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <!-- Ambient Background -->
+    <div class="ambient-bg">
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+      <div class="orb orb-3"></div>
+    </div>
+
+    <!-- Grid Overlay -->
+    <div class="grid-overlay"></div>
+
+    <h1>PING TEST</h1>
+    <p>Status: 100 Continue</p>
+    <div class="image-container">
+      <img src="https://http.cat/100" alt="100 Continue" width="500" />
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>© 2026 KEITH LIM. A Hobby Project.</p>
+    </footer>
+  </body>
+</html>
